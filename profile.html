@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Profile</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-primary">Profile</h2>
+        <div id="userData" class="mt-4">
+            <!-- User data will be displayed here -->
+        </div>
+
+        <button id="editProfileBtn" class="btn btn-primary mt-3">Edit Profile</button>
+    </div>
+
+    <form id="updateProfileForm" class="container mt-4" style="display:none;">
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="text" class="form-control" id="age" name="age">
+        </div>
+
+        <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="text" class="form-control" id="dob" name="dob">
+        </div>
+
+        <div class="form-group">
+            <label for="contact">Contact:</label>
+            <input type="text" class="form-control" id="contact" name="contact">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+
+    <p class="container mt-3">Go back to <a href="login.html">Login</a></p>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="assets/js/profile.js"></script>
+
+    <script>
+        // Function to display user data on page load
+        $(document).ready(function () {
+            // Make an AJAX request to fetch user data
+            $.ajax({
+                type: 'POST',
+                url: 'getUserData.php', // Replace with the actual endpoint
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status === 'success') {
+                        // Update the #userData div with user information
+                        $('#userData').html(`
+                            <p><strong>Username:</strong> ${data.userData.username}</p>
+                            <p><strong>Age:</strong> ${data.userData.age}</p>
+                            <p><strong>Date of Birth:</strong> ${data.userData.dob}</p>
+                            <p><strong>Contact:</strong> ${data.userData.contact}</p>
+                        `);
+                    } else {
+                        console.log('Error fetching user data');
+                    }
+                },
+                error: function () {
+                    console.log('Error fetching user data');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
